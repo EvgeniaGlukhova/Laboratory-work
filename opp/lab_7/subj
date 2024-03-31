@@ -1,0 +1,502 @@
+#include <string>
+#include <cstdlib>
+#include <iomanip>
+#include <iostream>
+#include <limits>
+#include <stdexcept>
+
+#include "subj.h" 
+#include "list.h"
+
+class car : public Base
+{
+private:
+	enum body B;
+	enum engine E;
+	enum drive D;
+
+public:
+	ItemType getType() const override { return t_itCar; }
+ 
+
+	body getBody() const override { return B; }
+	engine getEngine() const override { return E; }
+	drive getDrive() const override { return D; }
+
+	void Input() override;
+	void Output() const override;
+
+	car(List* L) : Base(L) {};
+	~car() {};
+};
+
+class minibus : public Base
+{
+private:
+	enum engine E;
+	int numberofseats;
+public:
+	ItemType getType() const override { return t_itMinibus; }
+	
+
+	int getNumOfSeats() const override { return numberofseats; }
+	engine getEngine() const override { return E; }
+
+	
+
+	void Input() override;
+	void Output() const override;
+
+
+	minibus(List* L) : Base(L) {};
+	~minibus() {};
+};
+
+class bus : public Base
+{
+private:
+	enum engine E;
+
+	int numberofseats;
+	int loadcapacity;
+
+public:
+	ItemType getType() const override { return t_itBus; }
+
+
+	int getNumOfSeats() const override { return numberofseats; }
+	int getLoadCap() const override { return loadcapacity; }
+	engine getEngine() const override { return E; }
+
+
+
+	void Input() override;
+	void Output() const override;
+
+	bus(List* L) : Base(L) {};
+	~bus() {};
+};
+
+class truck : public Base
+{
+private:
+	enum engine E;
+
+	int loadcapacity;
+
+public:
+	ItemType getType() const override { return t_itTruck; }
+
+	
+
+	int getLoadCap() const override { return loadcapacity; }
+	engine getEngine() const override { return E; }
+
+
+
+	void Input() override;
+	void Output() const override;
+
+	truck(List* L) : Base(L) {};
+	~truck() {};
+};
+
+class special : public Base
+{
+private:
+	std::string text;
+public:
+	ItemType getType() const override { return t_itSpecial; }
+	
+
+	void Input() override;
+	void Output() const override;
+	std::string getText() const override { return text; }
+
+	special(List* L) : Base(L) {};
+	~special() {};
+};
+
+Base* Base::Create(List* L, ItemType type)
+{
+	Base* p = nullptr;
+	switch (type)
+	{
+	case t_itCar:
+		p = new car(L);
+		break;
+	case t_itMinibus:
+		p = new minibus(L);
+		break;
+	case t_itBus:
+		p = new bus(L);
+		break;
+	case t_itTruck:
+		p = new truck(L);
+		break;
+	case t_itSpecial:
+		p = new special(L);
+		break;
+	}
+	return p;
+};
+
+void clearConsole() {
+	std::cin.clear();
+	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+}
+
+
+ItemType Base::InputType() {
+	int tip;
+	ItemType type;
+
+	do {
+		std::cout << "Write type\n 1 - itCar\n 2 - itMinibus\n 3 - itBus\n 4 - itTruck\n"
+			" 5 - itSpecial\n> ";
+		clearConsole();
+		std::cin >> tip;
+		if (!std::cin.fail() && tip > 0 && tip <= 5) {
+			type = ItemType(tip);
+			break;
+		}
+		std::cout << "Wrong number!\n";
+	} while (1);
+
+	return type;
+};
+
+colour Base::InputCol() {
+	int coll;
+	colour col;
+
+	do {
+		std::cout << "Write colour\n 1 - white\n 2 - black\n 3 - blue\n 4 - yellow\n"
+			" 5 - red\n> ";
+		clearConsole();
+		std::cin >> coll;
+		if (!std::cin.fail() && coll > 0 && coll <= 5) {
+			col = colour(coll);
+			break;
+		}
+		std::cout << "Wrong number!\n";
+	} while (1);
+
+	return col;
+};
+
+body Base::InputBody() {
+	int Bod;
+	body B;
+
+	do {
+		std::cout << "Write type\n 1 - sedan\n 2 - hatchback\n 3 - universal\n ";
+		clearConsole();
+		std::cin >> Bod;
+		if (!std::cin.fail() && Bod > 0 && Bod <= 3) {
+			B = body(Bod);
+			break;
+		}
+		std::cout << "Wrong number!\n";
+	} while (1);
+
+	return B;
+};
+
+engine Base::InputEn() {
+	int En;
+	engine E;
+
+	do {
+		std::cout << "Write type\n 1 - primary\n 2 - secondary\n ";
+		clearConsole();
+		std::cin >> En;
+		if (!std::cin.fail() && En > 0 && En <= 2) {
+			E = engine(En);
+			break;
+		}
+		std::cout << "Wrong number!\n";
+	} while (1);
+
+	return E;
+};
+
+drive Base::InputDrive() {
+	int Dr;
+	drive D;
+
+	do {
+		std::cout << "Write type\n 1 - rear\n 2 - front\n 3 - full\n ";
+		clearConsole();
+		std::cin >> Dr;
+		if (!std::cin.fail() && Dr > 0 && Dr <= 3) {
+			D = drive(Dr);
+			break;
+		}
+		std::cout << "Wrong number!\n";
+	} while (1);
+
+	return D;
+};
+
+void Base::Input() {
+	do {
+		std::cout << "Enter statenumber: ";
+		if (std::cin >> statenumber) {
+			break;
+		}
+		else {
+			std::cout << "Wrong input!";
+		};
+		clearConsole();
+	} while (1);
+	do {
+		std::cout << "Enter owner: ";
+		if (std::cin >> owner) {
+			break;
+		}
+		else {
+			std::cout << "Wrong input!";
+		};
+		clearConsole();
+	} while (1);
+	do {
+		std::cout << "Enter brand: ";
+		if (std::cin >> brand) {
+			break;
+		}
+		else {
+			std::cout << "Wrong input!";
+		};
+		clearConsole();
+	} while (1);
+	do {
+		std::cout << "Enter model: ";
+		if (std::cin >> model) {
+			break;
+		}
+		else {
+			std::cout << "Wrong input!";
+		};
+		clearConsole();
+	} while (1);
+	do {
+		col = Base::InputCol(); 
+		break;
+		clearConsole();
+	} while (1);
+}
+
+void car::Input() {
+
+	Base::Input();
+
+	do {
+		B = Base::InputBody(); 
+		break;
+		clearConsole();
+	} while (1);
+	do {
+		E = Base::InputEn();
+		break;
+		clearConsole();
+	} while (1);
+	do {
+		D = Base::InputDrive();
+		break;
+		clearConsole();
+	} while (1);
+
+}
+
+
+void minibus::Input() {
+
+	Base::Input();
+
+	do {
+		E = Base::InputEn();
+		break;
+		clearConsole();
+	} while (1);
+	do {
+		std::cout << "Enter numberofseats: ";
+		if (std::cin >> numberofseats) { break; }
+		else { std::cout << "Wrong input!"; };
+		clearConsole();
+	} while (1);
+
+}
+
+
+void bus::Input() {
+
+	Base::Input();
+
+	do {
+		E = Base::InputEn();
+		break;
+		clearConsole();
+	} while (1);
+	do {
+		std::cout << "Enter numberofseats: ";
+		if (std::cin >> numberofseats) { break; }
+		else { std::cout << "Wrong input!"; };
+		clearConsole();
+	} while (1);
+	do {
+		std::cout << "Enter loadcapacity: ";
+		if (std::cin >> loadcapacity) { break; }
+		else { std::cout << "Wrong input!"; };
+		clearConsole();
+	} while (1);
+
+
+}
+
+
+void truck::Input() {
+	Base::Input();
+
+	do {
+		E = Base::InputEn();
+		break;
+		clearConsole();
+	} while (1);
+	do {
+		std::cout << "Enter loadcapacity: ";
+		if (std::cin >> loadcapacity) { break; }
+		else { std::cout << "Wrong input!"; };
+		clearConsole();
+	} while (1);
+
+
+}
+
+void special::Input() {
+	Base::Input();
+
+	do {
+		std::cout << "Enter text: ";
+		if (std::cin >> text) { break; }
+		else { std::cout << "Wrong input!"; };
+		clearConsole();
+	} while (1);
+
+
+}
+
+
+void Base::Output() const {  
+	std::cout << "statenumber: " << statenumber << "\towner: " << owner << "\tbrand: " << brand <<
+		"\tmodel: " << model <<
+		"\tcolour: " << static_cast<int> (col) << "\n";
+}
+
+void car::Output() const {
+	std::cout << "Car:\n";
+	Base::Output();
+	std::cout << "Body: " << B << "\tEngine: " << E << "\t Drive: " << D << "\n\n";
+}
+
+void minibus::Output() const {
+	std::cout << "Minibus:\n";
+	Base::Output();
+	std::cout << "Engine: " << E << "\tNumder of seats: " << numberofseats << "\n\n";
+}
+
+void bus::Output() const {
+	std::cout << "Bus:\n";
+	Base::Output();
+	std::cout << "Engine: " << E << "\tNumder of seats: " << numberofseats << "\tLoadcapacity: " << loadcapacity << "\n\n";
+}
+
+void truck::Output() const {
+	std::cout << "Truck:\n";
+	Base::Output();
+	std::cout << "Engine: " << E << "\tLoadcapacity: " << loadcapacity << "\n\n";
+}
+
+void special::Output() const {
+	std::cout << "Special:\n";
+	Base::Output();
+	std::cout << "Text: " << text << "\n\n";
+}
+
+
+void SubjList::Print() const {
+	Item* p;
+	int i = 0;
+	if (Head())
+		for (p = Head(); p; p = p->Next()) {
+			std::cout << "Index: " << i << "\t";
+			((Base*)p)->Output();
+			i++;
+		}
+	else
+		std::cout << "List is empty.\n";
+}
+
+Base& SubjList::operator[](int n) const {  // Оператор индексирования
+	if (n < 0 && n >= Count()) {
+		throw std::out_of_range("Out of range error");
+	}
+	return *(Base*)GetItem(n);  // ссылка на элемент объекта
+}
+
+void SubjList::swap(int i, int j)
+{
+	Item* tmp = Remove(i);
+	Insert(tmp, j);
+}
+
+void SubjList::sortmecta()  // в порядке убывания
+{
+	const SubjList& L = *this;
+	int count = Count();
+	int i, j;
+	for (j = 1; j < count; j++)
+	{
+		for (i = 0; i < count - j; i++)
+		{
+			if (L[i] < L[i + 1])  
+			{
+				swap(i, i + 1);
+			}
+		}
+	}
+
+}
+
+void SubjList::FindByColour(colour col) const {
+	const SubjList& L = *this;  
+	int n = L.Count();
+	for (int i = 0; i < n; i++) {
+		if (L[i] == col) {
+			L[i].Output();
+		}
+	}
+};
+
+void SubjList::FindByNumber(std::string statenumber) const {
+	Base* current = (Base*)Head();
+	while (current != nullptr) {
+		if(*current == statenumber)
+		{
+			current->Output();
+		}
+		current = (Base*)current->Next();
+	}
+}
+
+
+void SubjList::FindByOwner(std::string owner) const {
+	Base* current = (Base*)Head();
+	while (current != nullptr) {
+		if (current->getOwn().compare(owner.c_str()) == 0) {
+			current->Output();
+		}
+		current = (Base*)current->Next();
+	}
+}
+
