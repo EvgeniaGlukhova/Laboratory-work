@@ -1,0 +1,140 @@
+#include<cstdio>
+#include<cstdlib>
+#include<iostream>
+#include"list.h"
+
+
+Item::~Item() { 
+	if (list) {
+		list->Remove(this);
+	}
+}
+
+List::~List() {
+	Clear();
+}
+
+void List::Add(Item* I) {
+	if (head == nullptr) {
+		I->next = nullptr;
+		I->prev = nullptr;
+		head = I;
+		tail = I;
+	}
+	else {
+		tail->next = I;
+		I->prev = tail;
+		tail = I;
+		tail->next = nullptr;
+	}
+	I->list = this; 
+}
+
+int List::Count() const { // подсчет элементов в списке 
+	Item* an = head;
+	int i = 0;
+	for (i; an != nullptr; i++)
+	{
+		an = an->next;
+	}
+	return i;
+}
+
+
+Item* List::GetItem(int n) const { 
+	Item* an = head;
+	int i = 0;
+	for (an; an != nullptr; an = an->next)
+	{
+		if (i == n)
+		{
+			break;
+		}
+		i++;
+	}
+	return an;
+}
+
+
+int List::GetIndex(Item* I) const { 
+	Item* an = head;
+	int i = 0;
+	for (an; an != nullptr; an = an->next)
+	{
+		if (an == I)
+		{
+			return i;
+		}
+		i++;
+	}
+	return -1;
+}
+
+Item* List::Remove(int n) { 
+	Item* an = GetItem(n);
+	return Remove(an);
+}
+
+Item* List::Remove(Item* an) { 
+	if (an == nullptr) {
+		return nullptr;
+	}
+	if (an == head && an == tail) {
+		head = nullptr;
+		tail = nullptr;
+	}
+	else if (an == head) {
+		head = an->next;
+		an->next->prev = nullptr;
+	}
+	else if (an == tail) {
+		tail = an->prev;
+		an->prev->next = nullptr;
+	}
+	else {
+		an->prev->next = an->next;
+		an->next->prev = an->prev;
+	}
+
+	an->list = nullptr;
+	an->next = nullptr;
+	an->prev = nullptr;
+
+	return an;
+}
+
+void List::Delete(int n) {
+	Item* an = Remove(n);
+	if (an != nullptr && an->list != nullptr) {
+		delete an;
+	}
+}
+
+
+
+void List::Insert(Item* I, int n) {
+	Item* an = GetItem(n);
+	if (an == nullptr) {
+		Add(I);
+	}
+	else if (n == 0) {
+		head->prev = I;
+		I->next = head;
+		head = I;
+		I->prev = nullptr;
+	}
+	else {
+		I->next = an;
+		I->prev = an->prev;
+		an->prev->next = I;
+		an->prev = I;
+	}
+	I->list = this; 
+}
+
+void List::Clear() {
+	Item* an = head;
+	for (an; head != nullptr; an = head) {
+		Delete(0);
+	}
+}
