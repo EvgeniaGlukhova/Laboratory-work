@@ -1,0 +1,565 @@
+#include "subj.h" 
+#include "list.h"
+#include <string>
+#include <cstdio>
+#include <cstdbool>
+#include <cstdlib>
+#include<iomanip>
+#include<iostream>
+#include<limits>
+
+class car : public Base
+{
+private:
+	enum body B;
+	enum engine E;
+	enum drive D;
+
+public:
+	void Input();
+	void Output();
+
+
+	body getBody() { return B; }
+	engine getEngine() { return E; }
+	drive getDrive() { return D; }
+
+	void setBody(body Bod) { B = Bod; }
+	void setEngine(engine En) { E = En; }
+	void setDrive(drive Dr) { D = Dr; }
+
+
+	car(List* L) : Base(L) { type = itCar; };
+};
+
+class minibus : public Base
+{
+private:
+	enum engine E;
+
+	int numberofseats;
+
+public:
+	void Input();
+	void Output();
+	int getNumOfSeats() { return numberofseats; }
+
+	engine getEngine() { return E; }
+
+	void setEngine(engine En) { E = En; }
+
+	minibus(List* L) : Base(L) { type = itMinibus; };
+};
+
+class bus : public Base
+{
+private:
+	enum engine E;
+
+	int numberofseats;
+	int loadcapacity;
+
+public:
+	void Input();
+	void Output();
+	int getNumOfSeats() { return numberofseats; }
+	int getLoadCap() { return loadcapacity; }
+
+	engine getEngine() { return E; }
+
+	void setEngine(engine En) { E = En; }
+
+	bus(List* L) : Base(L) { type = itBus; };
+};
+
+class truck : public Base
+{
+private:
+	enum engine E;
+
+	int loadcapacity;
+
+public:
+	void Input();
+	void Output();
+	int getLoadCap() { return loadcapacity; }
+
+	engine getEngine() { return E; }
+
+	void setEngine(engine En) { E = En; }
+
+	truck(List* L) : Base(L) { type = itTruck; };
+};
+
+class special : public Base
+{
+private:
+	std::string text;
+public:
+	void Input();
+	void Output();
+	std::string getText() { return text; }
+
+	special(List* L) : Base(L) { type = itSpecial; };
+};
+
+
+
+Base* Base::Create(List* L, ItemType type)
+{
+	Base* p = nullptr;
+	switch (type)
+	{
+	case itCar:
+		p = new car(L);
+		break;
+	case itMinibus:
+		p = new minibus(L);
+		break;
+	case itBus:
+		p = new bus(L);
+		break;
+	case itTruck:
+		p = new truck(L);
+		break;
+	case itSpecial:
+		p = new special(L);
+		break;
+	}
+	return p;
+};
+
+void clearConsole() {
+	std::cin.clear();
+	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+}
+
+
+ItemType InputType() {
+	int tip;
+	ItemType type;
+
+	do {
+		std::cout << "Write type\n 1 - itCar\n 2 - itMinibus\n 3 - itBus\n 4 - itTruck\n"
+			" 5 - itSpecial\n> ";
+		clearConsole();
+		std::cin >> tip;
+		if (!std::cin.fail() && tip > 0 && tip <= 5) {
+			type = ItemType(tip);
+			break;
+		}
+		std::cout << "Wrong number!\n";
+	} while (1);
+
+	return type;
+};
+
+colour InputCol() {
+	int coll; 
+	colour col;
+
+	do {
+		std::cout << "Write colour\n 1 - white\n 2 - black\n 3 - blue\n 4 - yellow\n"
+			" 5 - red\n> ";
+		clearConsole();
+		std::cin >> coll;
+		//		std::cout << "COLL " << coll << std::endl;
+		if (!std::cin.fail() && coll > 0 && coll <= 5) {
+			col = colour(coll);
+			break;
+		}
+		std::cout << "Wrong number!\n";
+	} while (1);
+
+	return col;
+};
+
+body InputBody() {
+	int Bod; //?
+	body B;
+
+	do {
+		std::cout << "Write type\n 1 - sedan\n 2 - hatchback\n 3 - universal\n ";
+		clearConsole();
+		std::cin >> Bod;
+		if (!std::cin.fail() && Bod > 0 && Bod <= 3) {
+			B = body(Bod);
+			break;
+		}
+		std::cout << "Wrong number!\n";
+	} while (1);
+
+	return B;
+};
+
+engine InputEn() {
+	int En; //?
+	engine E;
+
+	do {
+		std::cout << "Write type\n 1 - primary\n 2 - secondary\n ";
+		clearConsole();
+		std::cin >> En;
+		if (!std::cin.fail() && En > 0 && En <= 2) {
+			E = engine(En);
+			break;
+		}
+		std::cout << "Wrong number!\n";
+	} while (1);
+
+	return E;
+};
+
+drive InputDrive() {
+	int Dr; //?
+	drive D;
+
+	do {
+		std::cout << "Write type\n 1 - rear\n 2 - front\n 3 - full\n ";
+		clearConsole();
+		std::cin >> Dr;
+		if (!std::cin.fail() && Dr > 0 && Dr <= 3) {
+			D = drive(Dr);
+			break;
+		}
+		std::cout << "Wrong number!\n";
+	} while (1);
+
+	return D;
+};
+
+
+void Base::_input() {
+	do {
+		std::cout << "Enter statenumber: ";
+		if (std::cin >> statenumber) {
+			break;
+		}
+		else {
+			std::cout << "Wrong input!";
+		};
+		clearConsole();
+	} while (1);
+	do {
+		std::cout << "Enter owner: ";
+		if (std::cin >> owner) {
+			break;
+		}
+		else {
+			std::cout << "Wrong input!";
+		};
+		clearConsole();
+	} while (1);
+	do {
+		std::cout << "Enter brand: ";
+		if (std::cin >> brand) {
+			break;
+		}
+		else {
+			std::cout << "Wrong input!";
+		};
+		clearConsole();
+	} while (1);
+	do {
+		std::cout << "Enter model: ";
+		if (std::cin >> model) {
+			break;
+		}
+		else {
+			std::cout << "Wrong input!";
+		};
+		clearConsole();
+	} while (1);
+	do {
+		col = InputCol();
+		break;
+		clearConsole();
+	} while (1);
+}
+
+
+void Base::Input()
+{
+	//if (N)
+	switch (type)    //N->type
+	{
+	case itCar:
+		((car*)this)->Input(); //InputCar((struct car*)N);
+		//			if(col == white)
+		//				std::cout << "COL " << col << std::endl;
+		break;
+	case itMinibus:
+		((minibus*)this)->Input();//InputMinibus((struct minibus*)N);
+		break;
+	case itBus:
+		((bus*)this)->Input();//InputBus((struct bus*)N);
+		break;
+	case itTruck:
+		((truck*)this)->Input();//InputTruck((struct truck*)N);
+		break;
+	case itSpecial:
+		((special*)this)->Input();//InputSpecial((struct special*)N);
+		break;
+	default:
+		std::cout << "ERROR: object type unknown!\n"; //printf("ERROR: object type unknown!\n");
+	}
+	//else
+		//printf("ERROR: null pointer!\n");
+};
+
+
+
+void car::Input() { //InputCar
+
+	_input();
+
+	do {
+		B = InputBody();
+		break;
+		clearConsole();
+	} while (1);
+	do {
+		E = InputEn();
+		break;
+		clearConsole();
+	} while (1);
+	do {
+		D = InputDrive();
+		break;
+		clearConsole();
+	} while (1);
+
+	//	PrintCar(N);
+}
+
+
+void minibus::Input() {
+
+	_input();
+
+	do {
+		E = InputEn();
+		break;
+		clearConsole();
+	} while (1);
+	do {
+		std::cout << "Enter numberofseats: ";
+		if (std::cin >> numberofseats) { break; }
+		else { std::cout << "Wrong input!"; };
+		clearConsole();
+	} while (1);
+
+	//PrintMinibus(N);
+}
+
+
+void bus::Input() {
+
+	_input();
+
+	do {
+		E = InputEn();
+		break;
+		clearConsole();
+	} while (1);
+	do {
+		std::cout << "Enter numberofseats: ";
+		if (std::cin >> numberofseats) { break; }
+		else { std::cout << "Wrong input!"; };
+		clearConsole();
+	} while (1);
+	do {
+		std::cout << "Enter loadcapacity: ";
+		if (std::cin >> loadcapacity) { break; }
+		else { std::cout << "Wrong input!"; };
+		clearConsole();
+	} while (1);
+
+	//	PrintBus(N);
+
+}
+
+
+void truck::Input() {
+	_input();
+
+	do {
+		E = InputEn();
+		break;
+		clearConsole();
+	} while (1);
+	do {
+		std::cout << "Enter loadcapacity: ";
+		if (std::cin >> loadcapacity) { break; }
+		else { std::cout << "Wrong input!"; };
+		clearConsole();
+	} while (1);
+
+	//	PrintTruck(N);
+
+}
+
+void special::Input() {
+	_input();
+
+	do {
+		std::cout << "Enter text: ";
+		if (std::cin >> text) { break; }
+		else { std::cout << "Wrong input!"; };
+		clearConsole();
+	} while (1);
+
+	//	PrintSpecial(N);
+
+}
+
+
+void Base::Output()
+{
+	//if (N)
+	switch (type) //N->type
+	{
+	case itCar:
+		((car*)this)->Output();  // PrintCar((struct car*)N);
+		break;
+	case itMinibus:
+		((minibus*)this)->Output();     // PrintMinibus((struct minibus*)N);
+		break;
+	case itBus:
+		((bus*)this)->Output();   //PrintBus((struct bus*)N);
+		break;
+	case itTruck:
+		((truck*)this)->Output();   // PrintTruck((struct truck*)N);
+		break;
+	case itSpecial:
+		((special*)this)->Output();   //PrintSpecial((struct special*)N);
+		break;
+	default:
+		std::cout << "ERROR: object type unknown!\n";
+	}
+	//else
+		//std::cout << "ERROR: null pointer!\n";
+};
+
+void Base::_output() {
+	std::cout << "statenumber: " << statenumber << "\towner: " << owner << "\tbrand: " << brand <<
+		"\tmodel: " << model <<
+		"\tcolour: " << static_cast<int> (col) << "\n";
+}
+
+void car::Output() {
+	std::cout << "Car:\n";
+	_output();
+	std::cout << "Body: " << B << "\tEngine: " << E << "\t Drive: " << D << "\n\n";
+}
+
+void minibus::Output() {
+	std::cout << "Minibus:\n";
+	_output();
+	std::cout << "Engine: " << E << "\tNumder of seats: " << numberofseats << "\n\n";
+}
+
+void bus::Output() {
+	std::cout << "Bus:\n";
+	_output();
+	std::cout << "Engine: " << E << "\tNumder of seats: " << numberofseats << "\tLoadcapacity: " << loadcapacity << "\n\n";
+}
+
+void truck::Output() {
+	std::cout << "Truck:\n";
+	_output();
+	std::cout << "Engine: " << E << "\tLoadcapacity: " << loadcapacity << "\n\n";
+}
+
+void special::Output() {
+	std::cout << "Special:\n";
+	_output();
+	std::cout << "Text: " << text << "\n\n";
+}
+
+
+
+void SubjList::Print() {
+	Item* p;
+	int i = 0;
+	if (Head())
+		for (p = Head(); p; p = p->Next()) {
+			std::cout << "Index: " << i << "\t";
+			((Base*)p)->Output();
+			i++;
+		}
+	else
+		std::cout << "List is empty.\n";
+}
+
+
+bool compare(Base* i, Base* j)
+{
+	if (i->getType() != itMinibus && i->getType() != itBus)
+		return true;
+	if (j->getType() == itMinibus || j->getType() == itBus)
+	{
+		if (((minibus*)i)->getNumOfSeats() < ((bus*)j)->getNumOfSeats())
+			return true;
+	}
+	return false;
+}
+
+void SubjList::swap(int i, int j)
+{
+	Item* tmp = Remove(i);
+	Insert(tmp, j);
+}
+
+void SubjList::sortmecta()  // сорт места
+{
+	int count = Count();
+	int i, j;
+	for (j = 1; j < count; j++)
+	{
+		for (i = 0; i < count - j; i++)
+		{
+			Base* i1 = (Base*)GetItem(i);
+			Base* i2 = (Base*)GetItem(i + 1);
+			if (compare(i1, i2))
+			{
+				swap(i, i + 1);
+			}
+		}
+	}
+	//	PrintList(L);  list.Print();
+}
+
+
+void SubjList::FindByNumber(std::string statenumber) {  //  поиск номер
+	Base* current = (Base*)Head();
+	while (current != nullptr) {
+		if (current->getNum().compare(statenumber.c_str()) == 0) {
+			current->Output();
+		}
+		current = (Base*)current->Next();
+	}
+}
+
+
+void SubjList::FindByOwner(std::string owner) { // владелец
+	Base* current = (Base*)Head();
+	while (current != nullptr) {
+		if (current->getOwn().compare(owner.c_str()) == 0) {
+			current->Output();
+		}
+		current = (Base*)current->Next();
+	}
+}
+
+void SubjList::FindByColour(colour col) {  // цвет 
+	Base* current = (Base*)Head();
+	//printf("Current: %p\n", (void *)current);
+	while (current != nullptr) {
+		//printf("col: %d\n", col);
+		if (current->getCol() == col) {
+			current->Output();
+		}
+		current = (Base*)current->Next();
+	}
+}
