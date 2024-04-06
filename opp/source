@@ -22,7 +22,7 @@ public:
 
     //вывод
     void outputComplex() {
-        std::cout << "Real part is " << real << " Imag part is " << imag << std::endl;
+        std::cout << "real " << real << " I imag " << imag << std::endl;
     }
 
 
@@ -31,7 +31,7 @@ public:
         this->imag = imag;
     }
 
-
+    
 
     Complex(const Complex& other) {   // копирование
         this->real = other.real;
@@ -44,7 +44,7 @@ public:
         return *this;
     }
 
-
+    
     Complex& operator=(double value) {  // присваивание
         real = value;
         imag = 0;
@@ -53,7 +53,7 @@ public:
 
     // Перегрузка арифметических операторов с комплексными числами
     Complex operator+(const Complex& other) const {    // сложение
-        return Complex(this->real + other.real, this->imag + other.imag);
+        return (real + other.real, imag + other.imag);
     }
 
     Complex operator-(const Complex& other) const {   // вычитание
@@ -74,7 +74,7 @@ public:
     }
 
     // Перегрузка арифметических операторов со стандартными типами данных
-    Complex operator+(double value) const {
+    Complex operator+(double value) const {   
         return Complex(this->real + value, this->imag);
     }
     Complex operator-(double value) const {
@@ -109,9 +109,15 @@ public:
         return(mod_);
     }
 
+    double Complex_mod2(const Complex& c) // модуль числа (длина)
+    {
+        double mod_2 = std::sqrt(real * real + imag * imag);
+        return(mod_2);
+    }
+
     double Complex_arg(const Complex& c) // Аргумент числа (угл)
     {
-        double arg_ = std::atan(c.getImag() / c.getReal());
+        double arg_ = std::atan(im / re);
         return(arg_);
     }
 
@@ -141,14 +147,14 @@ public:
         return(z_);
     }
 
-
+  
 
 
 
     // трансцендентные функции
 
     //  синуса 
-    double Complex_sin(const Complex& c)
+    double Complex_sin(const Complex& c) 
     {
         double sinReal = std::sin(c.getReal()) * std::cosh(c.getImag());
         double sinImag = std::cos(c.getReal()) * std::sinh(c.getImag());
@@ -156,7 +162,7 @@ public:
     }
 
     //  косинуса 
-    double Complex_cos(const Complex& c)
+    double Complex_cos(const Complex& c) 
     {
         double cosReal = std::cos(c.getReal()) * std::cosh(c.getImag());
         double cosImag = -std::sin(c.getReal()) * std::sinh(c.getImag());
@@ -169,16 +175,16 @@ public:
         double cosImag = std::cosh(c.getReal()) * std::sin(c.getImag());
         return (cosReal + cosImag);
 
-    }
+        }
 
-    double Complex_ch(const Complex& c)
+    double Complex_ch(const Complex& c) 
     { // cos
         double cosReal = std::cosh(c.getReal()) * std::cos(c.getImag());
         double cosImag = std::sinh(c.getReal()) * std::sin(c.getImag());
         return (cosReal + cosImag);
     }
 
-    double Complex_tan(const Complex& c)
+    double Complex_tan(const Complex& c) 
     {
         double tan_1 = std::sin(pow(c.getReal(), 2)) + std::sinh(pow(c.getImag(), 2));
         double tan_2 = std::cos(pow(c.getReal(), 2)) + std::cosh(pow(c.getImag(), 2));
@@ -201,7 +207,7 @@ public:
 
     double Complex_ctgh(const Complex& c)
     {
-        double cth_1 = -(-3 + std::cos(pow(c.getImag(), 2)) + 4 * std::cosh(c.getReal()) + 2 * pow((1 - std::cosh(c.getReal())), 2));
+        double cth_1 = -( - 3 + std::cos(pow(c.getImag(), 2)) + 4 * std::cosh(c.getReal()) + 2 * pow((1 - std::cosh(c.getReal())), 2));
         double cth_2 = std::sin(pow(c.getImag(), 2)) + std::sinh(pow(c.getReal(), 2));
         return (cth_1 + cth_2);
     }
@@ -215,7 +221,7 @@ public:
         else {
             return(0);
         }
-
+       
     }
 
     double Complex_arccos(const Complex& c)
@@ -223,12 +229,12 @@ public:
         if (0 > Zz(c) || Zz(c) > 1) {
             double arccos_ = std::log(Zz(c) - sqrt(pow(Zz(c), 2) - 1));
             return(arccos_);
-
+           
         }
         else {
             return(0);
         }
-
+        
     }
 
 
@@ -241,7 +247,7 @@ public:
         else {
             return(0);
         }
-
+        
     }
 
     double Complex_arcctg(const Complex& c)
@@ -254,7 +260,7 @@ public:
         else {
             return(0);
         }
-
+        
     }
 
     double Complex_arsh(const Complex& c)
@@ -266,7 +272,7 @@ public:
         else {
             return(0);
         }
-
+        
     }
 
     double Complex_arch(const Complex& c)
@@ -278,8 +284,8 @@ public:
         else {
             return(0);
         }
-
-
+        
+        
     }
 
 
@@ -312,7 +318,7 @@ public:
     // алгеброическая форма
     std::string toString() {
         std::stringstream ss;
-        ss.precision(2);
+        ss.precision(2); 
 
         //  знак мнимой части 
         if (imag >= 0) {
@@ -350,7 +356,7 @@ public:
     // показательная форма
     std::string toExponentialString() {
         std::stringstream ss;
-        ss.precision(2);
+        ss.precision(2); 
 
         double mod = sqrt(real * real + imag * imag); // определяем модуль числа
         double arg = atan2(imag, real); // определяем аргумент числа
@@ -360,14 +366,14 @@ public:
         return ss.str();
     }
 
-
+   
     static Complex fromExponentialString(const std::string& complexString) {
         std::stringstream ss(complexString);
 
         double mod, arg;
         std::string multiplicationSymbol, expStringSymbol, iSymbol;
 
-        ss >> mod >> multiplicationSymbol
+        ss >> mod>> multiplicationSymbol
             >> expStringSymbol >> arg >> iSymbol;
 
         return Complex(mod * cos(arg), mod * sin(arg));
@@ -379,82 +385,86 @@ public:
 
 
 
-int main()
-{
-    Complex c1;
-    Complex c2;
+    int main() 
+    {
+        Complex c1;
+        Complex c2;
 
-    std::cout << "Enter A complex number" << std::endl;
+        std::cout << "one complex number" << std::endl;
 
-    c1.inputComplex();
+        c1.inputComplex();
 
-    c1.outputComplex();
+        c1.outputComplex();
 
-    std::cout << "Enter B complex number" << std::endl;
+        std::cout << "two complex number" << std::endl;
 
-    c2.inputComplex();
+        c2.inputComplex();
 
-    c2.outputComplex();
+        c2.outputComplex();
 
-    std::cout << "A - B" << std::endl;
+        std::cout << "subtraction with a complex number" << std::endl;
 
-    (c1 - c2).outputComplex();
+        (c1 - c2).outputComplex();
 
-    std::cout << "A / B" << std::endl;
+        std::cout << "division with a complex number" << std::endl;
 
-    (c1 / c2).outputComplex();
+        (c1 / c2).outputComplex();
 
-    std::cout << "A + 3" << std::endl;
+        std::cout << "addition with a number" << std::endl;
 
-    (c1 + 3).outputComplex();
+        (c1 + 3).outputComplex();
 
-    std::cout << "A * 2" << std::endl;
+        std::cout << "multiplication with a number" << std::endl;
 
-    (c1 * 2).outputComplex();
+        (c1 * 2).outputComplex();
 
-    std::cout << "Module A is " << (c1.Complex_mod(c1)) << std::endl;
+        std::cout << "mod" << std::endl;
 
-    //std::cout<< (c1.Complex_mod(c1)) << std::endl;
+        std::cout<< (c1.Complex_mod2(c1)) << std::endl;
 
-    std::cout << "Angle A is " << (c1.Complex_arg(c1)) << std::endl;
+        std::cout << "arg" << std::endl;
 
-    //std::cout << (c1.Complex_arg(c1)) << std::endl;
+        std::cout << (c1.Complex_arg(c1)) << std::endl;
 
-/*        std::cout << "log" << std::endl;
+        std::cout << "log" << std::endl;
 
-        std::cout << (c1.Complex_log(c1)) << std::endl;*/
+        std::cout << (c1.Complex_log(c1)) << std::endl;
 
-    std::cout << "Exponent A is " << (c1.exp(c1)) << std::endl;
+        std::cout << "exp" << std::endl;
 
-    //std::cout << (c1.exp(c1)) << std::endl;
+        std::cout << (c1.exp(c1)) << std::endl;
 
-    std::cout << "Cos A is " << (c1.Complex_cos(c1)) << std::endl;
+        std::cout << "cos" << std::endl;
 
-    //std::cout << (c1.Complex_cos(c1)) << std::endl;
+        std::cout << (c1.Complex_cos(c1)) << std::endl;
 
-    std::cout << "tgh A is " << (c1.Complex_tgh(c1)) << std::endl;
+        std::cout << "sh" << std::endl;
 
-    // std::cout << (c1.Complex_tgh(c1)) << std::endl;
+        std::cout << (c1.Complex_sh(c1)) << std::endl;
 
-    std::cout << "tg A is " << (c1.Complex_tan(c1)) << std::endl;
+        std::cout << "tan" << std::endl;
 
-    // std::cout << (c1.Complex_tan(c1)) << std::endl;
+        std::cout << (c1.Complex_tan(c1)) << std::endl;
 
-    std::string algebraicString = c1.toString();
-    std::cout << "Algebraic form: " << algebraicString << std::endl;
-    Complex al = Complex::fromString(algebraicString);
-    std::cout << "Complex number from algebraic form: " << al.toString() << std::endl;
-
-
-    std::string exponentialString = c1.toExponentialString();
-    std::cout << "Exponential form: " << exponentialString << std::endl;
-    Complex ex = Complex::fromExponentialString(exponentialString);
-    std::cout << "Complex number from exponential form: " << ex.toExponentialString() << std::endl;
+        std::string algebraicString = c1.toString();
+        std::cout << "Algebraic form: " << algebraicString << std::endl;
+        Complex al = Complex::fromString(algebraicString);
+        std::cout << "Complex number from algebraic form: " << al.toString() << std::endl;
 
 
-    return 0;
+        std::string exponentialString = c1.toExponentialString();
+        std::cout << "Exponential form: " << exponentialString << std::endl;
+        Complex ex = Complex::fromExponentialString(exponentialString);
+        std::cout << "Complex number from exponential form: " << ex.toExponentialString() << std::endl;
 
-}
+
+        return 0;
+    
+    }
+
+
+   
+
 
 
 
