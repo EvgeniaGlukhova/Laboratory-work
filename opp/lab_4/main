@@ -1,0 +1,93 @@
+#include<cstdio>
+#include<cstdlib>
+#include<iostream>
+#include"list.h"
+#include "subj.h"
+
+class DebugList : public List {
+public:
+	void Print();
+	void Menu();
+};
+
+void DebugList::Print() {
+	int i;
+	Item* p;
+	std::cout << "\t#\tp\tp->Prev()\tp->Next()\n";
+	for (p = Head(), i = 0; p; p = p->Next(), i++) {
+		std::cout << "\t" << i << "\t" << p << "\t" << p->Prev() << "\t" << p->Next() << "\n";
+	}
+}
+
+void DebugList::Menu() {
+	std::cout << "Enter operation:\n 1-Add\n 2-Print List\n 3- FindByNumber\n 4- FindByOwner \n "
+		"5-FindByColour\n 6-Sortmecta\n 7-Clear\n 0-Exit\nNumber: ";
+}
+
+int main() {
+
+	int c;
+	Base* p;
+	SubjList list;
+	
+	int j;
+	
+
+	std::string buffStr;
+
+	while (1)
+	{
+		std::cout << "Enter operation:\n 1-Add\n 2-Print List\n 3- FindByNumber\n 4- FindByOwner \n "
+			"5-FindByColour\n 6-Sortmecta\n 7-Clear\n 0-Exit\nNumber: ";
+		std::cin >> c;
+		switch (c) {
+		case 1:
+			p = Base::Create(&list, InputType());
+			p->Input();
+			list.Add(p);
+			std::cout << "Item added successfully." << std::endl;
+			break;
+		case 2:
+			list.Print();
+			break;
+		case 3:
+			std::cout << "Enter number: ";
+			std::cin >> buffStr;
+			list.FindByNumber(buffStr);
+			break;
+		case 4:
+			std::cout << "Enter owner: ";
+			std::cin >> buffStr;
+			list.FindByOwner(buffStr);
+			break;
+		case 5:
+			std::cout << "Enter colour: ";
+			std::cin >> j;
+			list.FindByColour(static_cast <colour> (j));
+		case 6:
+			list.sortmecta();
+			break;
+		case 7:
+			list.Clear();
+			std::cout << "List was cleared." << std::endl;
+			break;
+		case 0:
+			return 0;
+			break;
+		default:
+			std::cout << "Wrong option!" << std::endl;
+			break;
+		}
+	}
+
+	system("pause");
+	return 0;
+}
+
+
+
+
+
+
+
+
