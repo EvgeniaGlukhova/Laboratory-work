@@ -1,53 +1,31 @@
-import java.util.ArrayList;
+
+public class Song {
+
+    private String name;
+    private String author;
+    private int length;
 
 
-public class Playlist{
 
-    private String PlName;
-    private final ArrayList<Song> song;
+    public Song(String name, String author, int length) {
 
-    public Playlist(String PlName)
-    {
-        this.PlName=PlName;
-        this.song = new ArrayList<>();
+        this.name = name;
+        this.author = author;
+        this.length = length;
     }
 
-
-    public String getPlName() // брать
-    {
-        return this.PlName;
-    }
-   
-    public ArrayList<Song> getSong()
-    {
-        return song;
+    public String getName() {
+        return this.name;
     }
 
-// добавить трек
-    public void addSong(Song newSong)
-    {
-        this.song.add(newSong);
+    public String getAuthor() {
+        return this.author;
     }
 
-// показать песни
-public void showSongs() {
-    for (int i = 0; i < song.size(); i++) {
-        System.out.println((i+1) + ". " + song.get(i));
+    public int getLength(){
+        return this.length;
     }
-}
-    public void removeSong(int index) {
-        if (index >= 0 && index < song.size()) {
-            song.remove(index);
-        } else {
-            System.out.println("Ошибка: неправильный индекс песни");
-        }
-    }
-
-
 
 
 }
-
-
-
 
