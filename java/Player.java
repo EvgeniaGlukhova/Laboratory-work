@@ -20,6 +20,18 @@ public class Player
         this.playlists = new ArrayList<>();
     }
 
+    public ArrayList<Playlist> getPlaylists() {
+        return new ArrayList<>(playlists);
+    }
+
+    public int getCurrentPlaylistIndex(){
+        return this.currentPlaylistIndex;
+    }
+
+    public int getCurrentSongIndex(){
+        return this.currentSongIndex;
+    }
+
     //создать плейлист по имени
     public void createPlaylist(String name)
     {
